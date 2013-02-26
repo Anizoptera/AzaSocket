@@ -13,17 +13,23 @@ use Aza\Components\Socket\Exceptions\Exception;
  * @uses sockets
  *
  * @project Anizoptera CMF
- * @package system.AzaSocket
+ * @package system.socket
  * @author  Amal Samally <amal.samally at gmail.com>
  * @license MIT
  */
 class SocketReal extends ASocket
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function read($length = 4096, $quiet = true)
 	{
 		return $this->_read($length, $quiet, PHP_BINARY_READ);
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function readLine($length = 4096, $quiet = true)
 	{
 		return $this->_read($length, $quiet, PHP_NORMAL_READ);
@@ -59,6 +65,9 @@ class SocketReal extends ASocket
 	}
 
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function write($buffer, $length = null)
 	{
 		if (!$sock = $this->resource) {
@@ -75,6 +84,9 @@ class SocketReal extends ASocket
 	}
 
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function accept($nonBlock = true, $throw = false)
 	{
 		if (!$sock = $this->resource) {
@@ -106,6 +118,9 @@ class SocketReal extends ASocket
 	}
 
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function setNonBlock()
 	{
 		if (!$sock = $this->resource) {
@@ -120,6 +135,9 @@ class SocketReal extends ASocket
 		return true;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function setBlock()
 	{
 		if (!$sock = $this->resource) {
@@ -135,6 +153,9 @@ class SocketReal extends ASocket
 	}
 
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function setRecieveTimeout($sec, $usec = 0)
 	{
 		if (!$sock = $this->resource) {
@@ -149,6 +170,9 @@ class SocketReal extends ASocket
 		return true;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function setSendTimeout($sec, $usec = 0)
 	{
 		if (!$sock = $this->resource) {
@@ -164,6 +188,9 @@ class SocketReal extends ASocket
 	}
 
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function setReadBuffer($buffer = 0)
 	{
 		if (!$sock = $this->resource) {
@@ -178,6 +205,9 @@ class SocketReal extends ASocket
 		return true;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function setWriteBuffer($buffer = 0)
 	{
 		if (!$sock = $this->resource) {
@@ -194,36 +224,7 @@ class SocketReal extends ASocket
 
 
 	/**
-	 * Queries the remote side of the given socket which may either result in host/port
-	 * or in a Unix filesystem path, dependent on its type.
-	 *
-	 * @see socket_getpeername
-	 *
-	 * @param string $addr <p>
-	 * If the given socket is of type AF_INET or
-	 * AF_INET6, socket_getpeername
-	 * will return the peers (remote) IP address in
-	 * appropriate notation (e.g. 127.0.0.1 or
-	 * fe80::1) in the address
-	 * parameter and, if the optional port parameter is
-	 * present, also the associated port.
-	 * </p>
-	 * <p>
-	 * If the given socket is of type AF_UNIX,
-	 * socket_getpeername will return the Unix filesystem
-	 * path (e.g. /var/run/daemon.sock) in the
-	 * address parameter.
-	 * </p>
-	 *
-	 * @param int $port [optional] <p>
-	 * If given, this will hold the port associated to
-	 * address.
-	 * </p>
-	 *
-	 * @return bool Returns true on success or false on failure. socket_getpeername may also return
-	 * false if the socket type is not any of AF_INET,
-	 * AF_INET6, or AF_UNIX, in which
-	 * case the last socket error code is not updated.
+	 * {@inheritdoc}
 	 */
 	public function getPeer(&$addr, &$port = null)
 	{
@@ -240,34 +241,7 @@ class SocketReal extends ASocket
 	}
 
 	/**
-	 * Queries the local side of the given socket which may either result in host/port
-	 * or in a Unix filesystem path, dependent on its type
-	 *
-	 * @see socket_getsockname
-	 *
-	 * @param string $addr <p>
-	 * If the given socket is of type AF_INET
-	 * or AF_INET6, socket_getsockname
-	 * will return the local IP address in appropriate notation (e.g.
-	 * 127.0.0.1 or fe80::1) in the
-	 * address parameter and, if the optional
-	 * port parameter is present, also the associated port.
-	 * </p>
-	 * <p>
-	 * If the given socket is of type AF_UNIX,
-	 * socket_getsockname will return the Unix filesystem
-	 * path (e.g. /var/run/daemon.sock) in the
-	 * address parameter.
-	 * </p>
-	 *
-	 * @param int $port [optional] <p>
-	 * If provided, this will hold the associated port.
-	 * </p>
-	 *
-	 * @return bool Returns true on success or false on failure. socket_getsockname may also return
-	 * false if the socket type is not any of AF_INET,
-	 * AF_INET6, or AF_UNIX, in which
-	 * case the last socket error code is not updated.
+	 * {@inheritdoc}
 	 */
 	public function getLocal(&$addr, &$port = null)
 	{
@@ -285,6 +259,9 @@ class SocketReal extends ASocket
 
 
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getInfo()
 	{
 		if (!$sock = $this->resource) {
@@ -323,7 +300,9 @@ class SocketReal extends ASocket
 			'TCP_NODELAY',
 		);
 		foreach ($constants as $const) {
-			$result[$const] = socket_get_option($sock, SOL_SOCKET, constant($const));
+			$result[$const] = socket_get_option(
+				$sock, SOL_SOCKET, constant($const)
+			);
 		}
 
 		return $result;
@@ -487,6 +466,8 @@ class SocketReal extends ASocket
 	 * @param int             $tv_usec
 	 *
 	 * @return int
+	 *
+	 * @throws Exception
 	 */
 	public static function select(&$read, &$write = null, &$except = null, $tv_sec = 0, $tv_usec = 0)
 	{

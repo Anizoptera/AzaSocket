@@ -3,6 +3,7 @@
 namespace Aza\Components\Socket;
 use Aza\Components\Socket\Exceptions\Exception;
 
+// TODO: Cover with tests
 
 /**
  * Socket functional helper
@@ -14,7 +15,7 @@ use Aza\Components\Socket\Exceptions\Exception;
  * @uses stream
  *
  * @project Anizoptera CMF
- * @package system.AzaSocket
+ * @package system.socket
  * @author  Amal Samally <amal.samally at gmail.com>
  * @license MIT
  */
