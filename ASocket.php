@@ -8,7 +8,7 @@ use Aza\Kernel\Common;
  * Socket abstraction
  *
  * @project Anizoptera CMF
- * @package system.AzaSocket
+ * @package system.socket
  * @author  Amal Samally <amal.samally at gmail.com>
  * @license MIT
  */
@@ -48,11 +48,12 @@ abstract class ASocket
 	public $maxBufferLength = 31457280; // 30 MB
 
 
-
 	/**
 	 * Socket constructor
 	 *
 	 * @param resource $resource
+	 *
+	 * @throws Exception
 	 */
 	public function __construct($resource)
 	{
@@ -283,6 +284,7 @@ abstract class ASocket
 	 * or in a Unix filesystem path, dependent on its type.
 	 *
 	 * @see socket_getpeername
+	 * @see stream_socket_get_name
 	 *
 	 * @param string $addr <p>
 	 * If the given socket is of type AF_INET or
@@ -317,6 +319,7 @@ abstract class ASocket
 	 * or in a Unix filesystem path, dependent on its type
 	 *
 	 * @see socket_getsockname
+	 * @see stream_socket_get_name
 	 *
 	 * @param string $addr <p>
 	 * If the given socket is of type AF_INET

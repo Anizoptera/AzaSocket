@@ -14,12 +14,15 @@ use Aza\Components\Socket\Exceptions\Exception;
  * @uses stream
  *
  * @project Anizoptera CMF
- * @package system.AzaSocket
+ * @package system.socket
  * @author  Amal Samally <amal.samally at gmail.com>
  * @license MIT
  */
 class SocketStream extends ASocket
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function read($length = 4096, $quiet = true)
 	{
 		if (!$sock = $this->resource) {
@@ -28,6 +31,9 @@ class SocketStream extends ASocket
 		return fread($sock, $length);
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function readLine($length = 4096, $quiet = true)
 	{
 		if (!$sock = $this->resource) {
@@ -37,6 +43,9 @@ class SocketStream extends ASocket
 	}
 
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function write($buffer, $length = null)
 	{
 		if (!$sock = $this->resource) {
@@ -48,6 +57,9 @@ class SocketStream extends ASocket
 	}
 
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function accept($nonBlock = true, $throw = false)
 	{
 		if (!$sock = $this->resource) {
@@ -69,6 +81,9 @@ class SocketStream extends ASocket
 	}
 
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function close()
 	{
 		if (is_resource($sock = $this->resource)) {
@@ -78,6 +93,9 @@ class SocketStream extends ASocket
 	}
 
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function setNonBlock()
 	{
 		if (!$sock = $this->resource) {
@@ -91,6 +109,9 @@ class SocketStream extends ASocket
 		return true;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function setBlock()
 	{
 		if (!$sock = $this->resource) {
@@ -105,11 +126,17 @@ class SocketStream extends ASocket
 	}
 
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function setRecieveTimeout($sec, $usec = 0)
 	{
 		return $this->setSendTimeout($sec, $usec);
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function setSendTimeout($sec, $usec = 0)
 	{
 		if (!$sock = $this->resource) {
@@ -124,6 +151,9 @@ class SocketStream extends ASocket
 	}
 
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function setReadBuffer($buffer = 0)
 	{
 		if (!$sock = $this->resource) {
@@ -141,6 +171,9 @@ class SocketStream extends ASocket
 		return true;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function setWriteBuffer($buffer = 0)
 	{
 		if (!$sock = $this->resource) {
@@ -153,11 +186,17 @@ class SocketStream extends ASocket
 	}
 
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getPeer(&$addr, &$port = null)
 	{
-		return $this->_getName(false, $addr, $port);
+		return $this->_getName(true, $addr, $port);
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getLocal(&$addr, &$port = null)
 	{
 		return $this->_getName(false, $addr, $port);
@@ -194,6 +233,9 @@ class SocketStream extends ASocket
 	}
 
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getInfo()
 	{
 		if (!$sock = $this->resource) {
@@ -285,6 +327,8 @@ class SocketStream extends ASocket
 	 * @param int             $tv_usec
 	 *
 	 * @return int
+	 *
+	 * @throws Exception
 	 */
 	public static function select(&$read, &$write = null, &$except = null, $tv_sec = 0, $tv_usec = 0)
 	{

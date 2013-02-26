@@ -7,7 +7,7 @@ use RuntimeException as BaseExeption;
  * Basic {@link Socket} exception.
  *
  * @project Anizoptera CMF
- * @package system.AzaSocket
+ * @package system.socket
  * @author  Amal Samally <amal.samally at gmail.com>
  * @license MIT
  */
