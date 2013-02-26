@@ -52,10 +52,13 @@ abstract class Socket
 	 *
 	 * @return ASocket
 	 */
-	public static function serverUnix($path, $group = false, $user = false, $nonBlock = true, $chmod = 0770)
+	public static function serverUnix($path, $group = false, $user = false,
+		$nonBlock = true, $chmod = 0770)
 	{
 		if ('sock' !== pathinfo($path, PATHINFO_EXTENSION)) {
-			throw new Exception("Unix-socket '{$path}' must has '.sock' extension.");
+			throw new Exception(
+				"Unix-socket '{$path}' must has '.sock' extension."
+			);
 		}
 
 		if (file_exists($path)) {
@@ -70,17 +73,24 @@ abstract class Socket
 
 		if ($chmod && !chmod($path, $chmod)) {
 			unlink($path);
-			throw new Exception(sprintf("chmod() to '%o' failed on unix-socket '%s'", $chmod, $path));
+			throw new Exception(sprintf(
+				"chmod() to '%o' failed on unix-socket '%s'",
+				$chmod, $path
+			));
 		}
 
 		if (false !== $group && !@chgrp($path, $group)) {
 			unlink($path);
-			throw new Exception("chgrp() to '{$group}' failed on unix-socket '{$path}'");
+			throw new Exception(
+				"chgrp() to '{$group}' failed on unix-socket '{$path}'"
+			);
 		}
 
 		if (false !== $group && !@chown($path, $user)) {
 			unlink($path);
-			throw new Exception("chown() to '{$user}' failed on unix-socket '{$path}'");
+			throw new Exception(
+				"chown() to '{$user}' failed on unix-socket '{$path}'"
+			);
 		}
 
 		return $socket;
@@ -125,8 +135,12 @@ abstract class Socket
 	public static function clientUnix($path, $nonBlock = true)
 	{
 		return self::$useSockets
-				? SocketReal::client(AF_UNIX, SOCK_STREAM, 0, $path, null, $nonBlock)
-				: SocketStream::client('unix://' . $path, $nonBlock);
+				? SocketReal::client(
+					AF_UNIX, SOCK_STREAM, 0, $path, null, $nonBlock
+				)
+				: SocketStream::client(
+					'unix://' . $path, $nonBlock
+				);
 	}
 
 	/**
@@ -145,8 +159,12 @@ abstract class Socket
 	public static function client($addr, $port = 0, $nonBlock = true)
 	{
 		return self::$useSockets
-				? SocketReal::client(AF_INET, SOCK_STREAM, SOL_TCP, $addr, $port, $nonBlock)
-				: SocketStream::client("{$addr}:{$port}", $nonBlock);
+				? SocketReal::client(
+					AF_INET, SOCK_STREAM, SOL_TCP, $addr, $port, $nonBlock
+				)
+				: SocketStream::client(
+					"{$addr}:{$port}", $nonBlock
+				);
 	}
 
 
@@ -179,7 +197,10 @@ abstract class Socket
 
 
 	/**
-	 * Runs the select() system call on the given arrays of sockets with a specified timeout
+	 * Runs the select() system call on the given arrays of
+	 * sockets with a specified timeout.
+	 *
+	 * It works. But it's very inefficient!
 	 *
 	 * @see socket_select
 	 * @see stream_select
@@ -192,7 +213,8 @@ abstract class Socket
 	 *
 	 * @return int
 	 */
-	public static function select(&$read, &$write = null, &$except = null, $tv_sec = null, $tv_usec = 0)
+	public static function select(&$read, &$write = null, &$except = null,
+		$tv_sec = null, $tv_usec = 0)
 	{
 		// Preparations
 		$arrays = array($read, $write, $except);
@@ -212,8 +234,12 @@ abstract class Socket
 
 		// Socket select
 		$num = self::$useSockets
-				? SocketReal::select($arrays[0], $arrays[1], $arrays[2], $tv_sec, $tv_usec)
-				: SocketStream::select($arrays[0], $arrays[1], $arrays[2], $tv_sec, $tv_usec);
+				? SocketReal::select(
+					$arrays[0], $arrays[1], $arrays[2], $tv_sec, $tv_usec
+				)
+				: SocketStream::select(
+					$arrays[0], $arrays[1], $arrays[2], $tv_sec, $tv_usec
+				);
 
 		// Results processing
 		if ($num) {

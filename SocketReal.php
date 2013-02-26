@@ -52,14 +52,18 @@ class SocketReal extends ASocket
 	protected function _read($length, $quiet, $flag)
 	{
 		if (!$sock = $this->resource) {
-			throw new Exception("Invalid socket resource");
+			throw new Exception(
+				"Invalid socket resource"
+			);
 		}
 		elseif (false === ($buf = socket_read($sock, $length, $flag))
 			&& !$quiet
 			&& SOCKET_EAGAIN !== socket_last_error($sock)
 		) {
 			$error = self::getError($this);
-			throw new Exception("Can't read '{$length}' bytes from socket {$error}.");
+			throw new Exception(
+				"Can't read '{$length}' bytes from socket {$error}."
+			);
 		}
 		return $buf;
 	}
@@ -71,14 +75,18 @@ class SocketReal extends ASocket
 	public function write($buffer, $length = null)
 	{
 		if (!$sock = $this->resource) {
-			throw new Exception("Invalid socket resource");
+			throw new Exception(
+				"Invalid socket resource"
+			);
 		}
 		isset($length) || $length = strlen($buffer);
 		if (false === ($written = socket_write($sock, $buffer, $length))
 			&& SOCKET_EAGAIN !== socket_last_error($sock)
 		) {
 			$error = self::getError($this);
-			throw new Exception("Can't write '{$length}' bytes to the socket {$error}.");
+			throw new Exception(
+				"Can't write '{$length}' bytes to the socket {$error}."
+			);
 		}
 		return $written;
 	}
@@ -90,13 +98,17 @@ class SocketReal extends ASocket
 	public function accept($nonBlock = true, $throw = false)
 	{
 		if (!$sock = $this->resource) {
-			throw new Exception("Invalid socket resource");
+			throw new Exception(
+				"Invalid socket resource"
+			);
 		}
 
 		elseif (false === $msgsock = @socket_accept($sock)) {
 			if ($throw) {
 				$error = self::getError($this);
-				throw new Exception("Socket accept failed {$error}.");
+				throw new Exception(
+					"Socket accept failed {$error}."
+				);
 			}
 			return false;
 		}
@@ -124,12 +136,16 @@ class SocketReal extends ASocket
 	public function setNonBlock()
 	{
 		if (!$sock = $this->resource) {
-			throw new Exception("Invalid socket resource");
+			throw new Exception(
+				"Invalid socket resource"
+			);
 		}
 
 		elseif (!socket_set_nonblock($sock)) {
 			$error = self::getError($this);
-			throw new Exception("Can't set nonblocking mode {$error}.");
+			throw new Exception(
+				"Can't set nonblocking mode {$error}."
+			);
 		}
 
 		return true;
@@ -141,12 +157,16 @@ class SocketReal extends ASocket
 	public function setBlock()
 	{
 		if (!$sock = $this->resource) {
-			throw new Exception("Invalid socket resource");
+			throw new Exception(
+				"Invalid socket resource"
+			);
 		}
 
 		elseif (!socket_set_block($sock)) {
 			$error = self::getError($this);
-			throw new Exception("Can't set blocking mode {$error}.");
+			throw new Exception(
+				"Can't set blocking mode {$error}."
+			);
 		}
 
 		return true;
@@ -159,12 +179,19 @@ class SocketReal extends ASocket
 	public function setRecieveTimeout($sec, $usec = 0)
 	{
 		if (!$sock = $this->resource) {
-			throw new Exception("Invalid socket resource");
+			throw new Exception(
+				"Invalid socket resource"
+			);
 		}
 
-		elseif (!socket_set_option($sock, SOL_SOCKET, SO_RCVTIMEO, array('sec' => $sec, 'usec' => $usec))) {
+		elseif (!socket_set_option(
+			$sock, SOL_SOCKET, SO_RCVTIMEO,
+			array('sec' => $sec, 'usec' => $usec)
+		)) {
 			$error = self::getError($this);
-			throw new Exception("Can't set socket recieve timeout ($sec, $usec) {$error}.");
+			throw new Exception(
+				"Can't set socket recieve timeout ($sec, $usec) {$error}."
+			);
 		}
 
 		return true;
@@ -179,9 +206,14 @@ class SocketReal extends ASocket
 			throw new Exception("Invalid socket resource");
 		}
 
-		elseif (!socket_set_option($sock, SOL_SOCKET, SO_SNDTIMEO, array('sec' => $sec, 'usec' => $usec))) {
+		elseif (!socket_set_option(
+			$sock, SOL_SOCKET, SO_SNDTIMEO,
+			array('sec' => $sec, 'usec' => $usec)
+		)) {
 			$error = self::getError($this);
-			throw new Exception("Can't set socket send timeout ($sec, $usec) {$error}.");
+			throw new Exception(
+				"Can't set socket send timeout ($sec, $usec) {$error}."
+			);
 		}
 
 		return true;
@@ -194,12 +226,18 @@ class SocketReal extends ASocket
 	public function setReadBuffer($buffer = 0)
 	{
 		if (!$sock = $this->resource) {
-			throw new Exception("Invalid socket resource");
+			throw new Exception(
+				"Invalid socket resource"
+			);
 		}
 
-		elseif (!socket_set_option($sock, SOL_SOCKET, SO_RCVBUF, $buffer)) {
+		elseif (!socket_set_option(
+			$sock, SOL_SOCKET, SO_RCVBUF, $buffer
+		)) {
 			$error = self::getError($this);
-			throw new Exception("Can't set socket read buffer timeout ($buffer) {$error}.");
+			throw new Exception(
+				"Can't set socket read buffer timeout ($buffer) {$error}."
+			);
 		}
 
 		return true;
@@ -211,12 +249,18 @@ class SocketReal extends ASocket
 	public function setWriteBuffer($buffer = 0)
 	{
 		if (!$sock = $this->resource) {
-			throw new Exception("Invalid socket resource");
+			throw new Exception(
+				"Invalid socket resource"
+			);
 		}
 
-		elseif (!socket_set_option($sock, SOL_SOCKET, SO_SNDBUF, $buffer)) {
+		elseif (!socket_set_option(
+			$sock, SOL_SOCKET, SO_SNDBUF, $buffer
+		)) {
 			$error = self::getError($this);
-			throw new Exception("Can't set socket write buffer timeout ($buffer) {$error}.");
+			throw new Exception(
+				"Can't set socket write buffer timeout ($buffer) {$error}."
+			);
 		}
 
 		return true;
@@ -229,12 +273,16 @@ class SocketReal extends ASocket
 	public function getPeer(&$addr, &$port = null)
 	{
 		if (!$sock = $this->resource) {
-			throw new Exception("Invalid socket resource");
+			throw new Exception(
+				"Invalid socket resource"
+			);
 		}
 
 		elseif (!socket_getpeername($sock, $addr, $port)) {
 			$error = self::getError($this);
-			throw new Exception("Can't get peer name {$error}.");
+			throw new Exception(
+				"Can't get peer name {$error}."
+			);
 		}
 
 		return true;
@@ -246,12 +294,16 @@ class SocketReal extends ASocket
 	public function getLocal(&$addr, &$port = null)
 	{
 		if (!$sock = $this->resource) {
-			throw new Exception("Invalid socket resource");
+			throw new Exception(
+				"Invalid socket resource"
+			);
 		}
 
 		elseif (!socket_getsockname($sock, $addr, $port)) {
 			$error = self::getError($this);
-			throw new Exception("Can't get socket name {$error}.");
+			throw new Exception(
+				"Can't get socket name {$error}."
+			);
 		}
 
 		return true;
@@ -265,7 +317,9 @@ class SocketReal extends ASocket
 	public function getInfo()
 	{
 		if (!$sock = $this->resource) {
-			throw new Exception("Invalid socket resource");
+			throw new Exception(
+				"Invalid socket resource"
+			);
 		}
 
 		$result = [];
@@ -320,7 +374,11 @@ class SocketReal extends ASocket
 	 */
 	protected static function getError($sock = null)
 	{
-		$sock = $sock ? ($sock instanceof self ? $sock->resource : $sock) : null;
+		$sock = $sock
+				? ($sock instanceof self
+						? $sock->resource
+						: $sock)
+				: null;
 		$errno = socket_last_error($sock);
 		$error = socket_strerror($errno);
 		socket_clear_error($sock);
@@ -332,15 +390,20 @@ class SocketReal extends ASocket
 	 *
 	 * @throws Exception
 	 *
-	 * @return self[] Array with two socket resources. Default use is: read, write.
+	 * @return self[] Array with two socket resources.
+	 * Default use is: read, write.
 	 */
 	public static function pair()
 	{
 		// On Windows we need to use AF_INET
 		$domain = IS_WIN ? AF_INET : AF_UNIX;
-		if (!socket_create_pair($domain, SOCK_STREAM, 0, $sockets)) {
+		if (!socket_create_pair(
+			$domain, SOCK_STREAM, 0, $sockets
+		)) {
 			$error = self::getError();
-			throw new Exception("Can't create socket pair {$error}.");
+			throw new Exception(
+				"Can't create socket pair {$error}."
+			);
 		}
 		$sockets[0] = new self($sockets[0]);
 		$sockets[1] = new self($sockets[1]);
@@ -365,32 +428,45 @@ class SocketReal extends ASocket
 	 *
 	 * @return self
 	 */
-	public static function server($domain, $type, $protocol, $address, $port = null, $reuse = true)
+	public static function server($domain, $type, $protocol, $address,
+		$port = null, $reuse = true)
 	{
 		$sock = self::create($domain, $type, $protocol);
 
 		if ($reuse) {
-			if (!socket_set_option($sock, SOL_SOCKET, SO_REUSEADDR, 1)) {
+			if (!socket_set_option(
+				$sock, SOL_SOCKET, SO_REUSEADDR, 1
+			)) {
 				$error = self::getError($sock);
-				throw new Exception("Can't set option REUSEADDR to socket {$error}.");
+				throw new Exception(
+					"Can't set option REUSEADDR to socket {$error}."
+				);
 			}
 
-			if (Socket::$reusePort && !socket_set_option($sock, SOL_SOCKET, SO_REUSEPORT, 1)) {
+			if (Socket::$reusePort && !socket_set_option(
+				$sock, SOL_SOCKET, SO_REUSEPORT, 1
+			)) {
 				$error = self::getError($sock);
-				throw new Exception("Can't set option REUSEPORT to socket {$error}.");
+				throw new Exception(
+					"Can't set option REUSEPORT to socket {$error}."
+				);
 			}
 		}
 
 		if (!@socket_bind($sock, $address, $port)) {
 			$error = self::getError($sock);
 			$path  = $port ? "$address:$port" : $address;
-			throw new Exception("Can't bind socket '$path' ({$error}).");
+			throw new Exception(
+				"Can't bind socket '$path' ({$error})."
+			);
 		}
 
 		if (!socket_listen($sock, SOMAXCONN)) {
 			$error = self::getError($sock);
 			$path  = null !== $port ? "$address:$port" : $address;
-			throw new Exception("Can't listen socket '$path' ({$error}).");
+			throw new Exception(
+				"Can't listen socket '$path' ({$error})."
+			);
 		}
 
 		return new self($sock);
@@ -413,7 +489,8 @@ class SocketReal extends ASocket
 	 *
 	 * @return self
 	 */
-	public static function client($domain, $type, $protocol, $address, $port = null, $nonBlock = true)
+	public static function client($domain, $type, $protocol, $address,
+		$port = null, $nonBlock = true)
 	{
 		$sock = self::create($domain, $type, $protocol);
 
@@ -426,7 +503,9 @@ class SocketReal extends ASocket
 		) {
 			$error = self::getError($sock);
 			$path  = $port ? "$address:$port" : $address;
-			throw new Exception("Can't connect socket '$path' ({$error}).");
+			throw new Exception(
+				"Can't connect socket '$path' ({$error})."
+			);
 		}
 
 		return new self($sock);
@@ -449,7 +528,9 @@ class SocketReal extends ASocket
 	{
 		if (!$sock = socket_create($domain, $type, $protocol)) {
 			$error = self::getError();
-			throw new Exception("Can't create socket {$error} [$domain, $type, $protocol].");
+			throw new Exception(
+				"Can't create socket {$error} [$domain, $type, $protocol]."
+			);
 		}
 		return $sock;
 	}
@@ -469,11 +550,16 @@ class SocketReal extends ASocket
 	 *
 	 * @throws Exception
 	 */
-	public static function select(&$read, &$write = null, &$except = null, $tv_sec = 0, $tv_usec = 0)
+	public static function select(&$read, &$write = null,
+		&$except = null, $tv_sec = 0, $tv_usec = 0)
 	{
-		if (false === $res = socket_select($read, $write, $except, $tv_sec, $tv_usec)) {
+		if (false === $res = socket_select(
+			$read, $write, $except, $tv_sec, $tv_usec
+		)) {
 			$error = self::getError();
-			throw new Exception("socket_select() failed {$error}.");
+			throw new Exception(
+				"socket_select() failed {$error}."
+			);
 		}
 		return $res;
 	}
