@@ -26,7 +26,9 @@ class SocketStream extends ASocket
 	public function read($length = 4096, $quiet = true)
 	{
 		if (!$sock = $this->resource) {
-			throw new Exception("Invalid socket resource");
+			throw new Exception(
+				"Invalid socket resource"
+			);
 		}
 		return fread($sock, $length);
 	}
@@ -37,7 +39,9 @@ class SocketStream extends ASocket
 	public function readLine($length = 4096, $quiet = true)
 	{
 		if (!$sock = $this->resource) {
-			throw new Exception("Invalid socket resource");
+			throw new Exception(
+				"Invalid socket resource"
+			);
 		}
 		return fgets($sock, $length);
 	}
@@ -49,7 +53,9 @@ class SocketStream extends ASocket
 	public function write($buffer, $length = null)
 	{
 		if (!$sock = $this->resource) {
-			throw new Exception("Invalid socket resource");
+			throw new Exception(
+				"Invalid socket resource"
+			);
 		}
 		return isset($length)
 			? fwrite($sock, $buffer, $length)
@@ -63,12 +69,16 @@ class SocketStream extends ASocket
 	public function accept($nonBlock = true, $throw = false)
 	{
 		if (!$sock = $this->resource) {
-			throw new Exception("Invalid socket resource");
+			throw new Exception(
+				"Invalid socket resource"
+			);
 		}
 
 		elseif (!$msgsock = @stream_socket_accept($sock)) {
 			if ($throw) {
-				throw new Exception("Socket accept failed.");
+				throw new Exception(
+					"Socket accept failed."
+				);
 			}
 			return false;
 		}
@@ -99,11 +109,15 @@ class SocketStream extends ASocket
 	public function setNonBlock()
 	{
 		if (!$sock = $this->resource) {
-			throw new Exception("Invalid socket resource");
+			throw new Exception(
+				"Invalid socket resource"
+			);
 		}
 
 		elseif (!stream_set_blocking($sock, 0)) {
-			throw new Exception("Couldn't set nonblocking mode.");
+			throw new Exception(
+				"Couldn't set nonblocking mode."
+			);
 		}
 
 		return true;
@@ -115,11 +129,15 @@ class SocketStream extends ASocket
 	public function setBlock()
 	{
 		if (!$sock = $this->resource) {
-			throw new Exception("Invalid socket resource");
+			throw new Exception(
+				"Invalid socket resource"
+			);
 		}
 
 		elseif (!stream_set_blocking($sock, 1)) {
-			throw new Exception("Couldn't set blocking mode.");
+			throw new Exception(
+				"Couldn't set blocking mode."
+			);
 		}
 
 		return true;
@@ -140,11 +158,15 @@ class SocketStream extends ASocket
 	public function setSendTimeout($sec, $usec = 0)
 	{
 		if (!$sock = $this->resource) {
-			throw new Exception("Invalid socket resource");
+			throw new Exception(
+				"Invalid socket resource"
+			);
 		}
 
 		elseif (!stream_set_timeout($sock, $sec, $usec)) {
-			throw new Exception("Can't set socket timeout.");
+			throw new Exception(
+				"Can't set socket timeout."
+			);
 		}
 
 		return true;
@@ -157,7 +179,9 @@ class SocketStream extends ASocket
 	public function setReadBuffer($buffer = 0)
 	{
 		if (!$sock = $this->resource) {
-			throw new Exception("Invalid socket resource");
+			throw new Exception(
+				"Invalid socket resource"
+			);
 		}
 
 		// Function is available only in PHP >= 5.3.3
@@ -177,7 +201,9 @@ class SocketStream extends ASocket
 	public function setWriteBuffer($buffer = 0)
 	{
 		if (!$sock = $this->resource) {
-			throw new Exception("Invalid socket resource");
+			throw new Exception(
+				"Invalid socket resource"
+			);
 		}
 
 		stream_set_write_buffer($sock, $buffer);
@@ -218,7 +244,9 @@ class SocketStream extends ASocket
 	protected function _getName($want_peer, &$addr, &$port = null)
 	{
 		if (!$sock = $this->resource) {
-			throw new Exception("Invalid socket resource");
+			throw new Exception(
+				"Invalid socket resource"
+			);
 		}
 
 		$port = '';
@@ -239,7 +267,9 @@ class SocketStream extends ASocket
 	public function getInfo()
 	{
 		if (!$sock = $this->resource) {
-			throw new Exception("Invalid socket resource");
+			throw new Exception(
+				"Invalid socket resource"
+			);
 		}
 		return stream_get_meta_data($sock);
 	}
@@ -257,8 +287,12 @@ class SocketStream extends ASocket
 	{
 		// On Windows we need to use PF_INET
 		$domain = IS_WIN ? STREAM_PF_INET : STREAM_PF_UNIX;
-		if (!$sockets = stream_socket_pair($domain, STREAM_SOCK_STREAM, 0)) {
-			throw new Exception("Can't create stream socket pair.");
+		if (!$sockets = stream_socket_pair(
+			$domain, STREAM_SOCK_STREAM, 0
+		)) {
+			throw new Exception(
+				"Can't create stream socket pair."
+			);
 		}
 		$sockets[0] = new self($sockets[0]);
 		$sockets[1] = new self($sockets[1]);
@@ -280,9 +314,12 @@ class SocketStream extends ASocket
 	{
 		$flags = STREAM_SERVER_BIND | STREAM_SERVER_LISTEN;
 
-		if (!$sock = @stream_socket_server($addr, $errno, $error, $flags)) {
+		if (!$sock = @stream_socket_server(
+			$addr, $errno, $error, $flags
+		)) {
 			throw new Exception(
-				"Can't create socket server (via stream) \"$addr\" (#{$errno}: {$error}).",
+				"Can't create socket server (via stream) "
+					."\"$addr\" (#{$errno}: {$error}).",
 				2
 			);
 		}
@@ -304,9 +341,12 @@ class SocketStream extends ASocket
 	 */
 	public static function client($addr, $nonBlock = true)
 	{
-		if (!$sock = @stream_socket_client($addr, $errno, $error)) {
+		if (!$sock = @stream_socket_client(
+			$addr, $errno, $error
+		)) {
 			throw new Exception(
-				"Can't create socket client (via stream) \"$addr\" (#{$errno}: {$error}).",
+				"Can't create socket client (via stream) "
+					."\"$addr\" (#{$errno}: {$error}).",
 				2
 			);
 		}
@@ -316,7 +356,8 @@ class SocketStream extends ASocket
 	}
 
 	/**
-	 * Runs the select() system call on the given arrays of sockets with a specified timeout
+	 * Runs the select() system call on the given arrays
+	 * of sockets with a specified timeout
 	 *
 	 * @see stream_select
 	 *
@@ -330,10 +371,15 @@ class SocketStream extends ASocket
 	 *
 	 * @throws Exception
 	 */
-	public static function select(&$read, &$write = null, &$except = null, $tv_sec = 0, $tv_usec = 0)
+	public static function select(&$read, &$write = null,
+		&$except = null, $tv_sec = 0, $tv_usec = 0)
 	{
-		if (false === $res = stream_select($read, $write, $except, $tv_sec, $tv_usec)) {
-			throw new Exception("stream_select() failed.");
+		if (false === $res = stream_select(
+			$read, $write, $except, $tv_sec, $tv_usec
+		)) {
+			throw new Exception(
+				"stream_select() failed."
+			);
 		}
 		return $res;
 	}
