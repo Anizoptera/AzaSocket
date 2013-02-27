@@ -9,7 +9,7 @@ https://github.com/Anizoptera/AzaSocket
 
 Provides convenient universal API for using sockets in PHP (via sockets or stream extensions).
 
-AzaSocket is a part of Anizoptera CMF, written by [Amal Samally](http://azagroup.ru/#amal) (amal.samally at gmail.com).
+AzaSocket is a part of [Anizoptera CMF](https://github.com/Anizoptera), written by [Amal Samally](http://azagroup.ru/#amal) (amal.samally at gmail.com) and [AzaGroup](http://azagroup.ru/) team.
 
 Licensed under the MIT License.
 
