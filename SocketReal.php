@@ -322,7 +322,7 @@ class SocketReal extends ASocket
 			);
 		}
 
-		$result = [];
+		$result = array();
 
 		try {
 			if (@$this->getLocal($addr, $port)) {

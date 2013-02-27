@@ -245,7 +245,7 @@ abstract class Socket
 		if ($num) {
 			foreach ($arrays as $k => &$selected) {
 				if ($selected) {
-					$_selected = [];
+					$_selected = array();
 					$haystack = $_arrays[$k];
 					$original = $o_arrays[$k];
 					foreach ($selected as $needle) {
@@ -257,7 +257,7 @@ abstract class Socket
 			}
 			list($read, $write, $except) = $arrays;
 		} else {
-			$read = $write = $except = [];
+			$read = $write = $except = array();
 		}
 
 		return $num;
