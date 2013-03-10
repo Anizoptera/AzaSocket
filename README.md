@@ -39,4 +39,4 @@ You can see [package information on Packagist.](https://packagist.org/packages/a
 License
 -------
 
-MIT, see [LICENSE.md](LICENSE.md)
+[MIT](http://www.opensource.org/licenses/mit-license.html), see [LICENSE.md](LICENSE.md)
