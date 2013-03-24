@@ -252,7 +252,7 @@ class SocketStream extends ASocket
 		$port = '';
 		$addr = stream_socket_get_name($sock, $want_peer);
 
-		if (preg_match('/:(\d+)$/DSX', $addr, $m)) {
+		if (preg_match('/:(\d+)$/DS', $addr, $m)) {
 			$port = $m[1];
 			$addr = substr($addr, 0, -(strlen($port)+1));
 		}
