@@ -4,6 +4,7 @@ namespace Aza\Components\Socket;
 use Aza\Components\Socket\Exceptions\Exception;
 
 // TODO: Cover with tests
+// TODO: Add UDP support
 
 /**
  * Socket functional helper
