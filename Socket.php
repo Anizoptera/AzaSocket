@@ -272,3 +272,13 @@ abstract class Socket
 // only in BSD flavour operating systems via SO_REUSEPORT socket option
 Socket::$reusePort = false !== stripos(php_uname('s'), 'BSD');
 defined('SO_REUSEPORT') || define('SO_REUSEPORT', 0x200);
+
+/**
+ * Windows flag
+ *
+ * It only needed if Anizoptera CMF is not bootstrapped
+ *
+ * We can use PHP_OS, but practically,
+ * testing for DIRECTORY_SEPARATOR is more straightforward.
+ */
+defined('IS_WIN') || define('IS_WIN', DIRECTORY_SEPARATOR !== '/');
