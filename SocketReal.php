@@ -83,9 +83,11 @@ class SocketReal extends ASocket
 		if (false === ($written = socket_write($sock, $buffer, $length))
 			&& SOCKET_EAGAIN !== socket_last_error($sock)
 		) {
+			// Don't use exception for consistency with fwrite in SocketStream
 			$error = self::getError($this);
-			throw new Exception(
-				"Can't write '{$length}' bytes to the socket {$error}."
+			trigger_error(
+				"Can't write '{$length}' bytes to the socket {$error}.",
+				E_USER_NOTICE
 			);
 		}
 		return $written;

@@ -2,7 +2,6 @@
 
 namespace Aza\Components\Socket;
 use Aza\Components\Socket\Exceptions\Exception;
-use Aza\Kernel\Common;
 
 /**
  * Socket abstraction
@@ -35,17 +34,6 @@ abstract class ASocket
 	 */
 	public $resource;
 
-	/**
-	 * Write buffer
-	 *
-	 * @var string
-	 */
-	public $buffer;
-
-	/**
-	 * Maximum write buffer size in bytes
-	 */
-	public $maxBufferLength = 31457280; // 30 MB
 
 
 	/**
@@ -139,58 +127,6 @@ abstract class ASocket
 	 * </p>
 	 */
 	abstract public function write($buffer, $length = null);
-
-	/**
-	 * Writes data to a socket (binary-safe). Tries to write full data.
-	 *
-	 * @throws Exception
-	 *
-	 * @param string $buffer <p>
-	 * The buffer to be written.
-	 * </p>
-	 *
-	 * @return bool <p>
-	 * TRUE if no data is left in write buffer FALSE otherwise.
-	 * </p>
-	 */
-	public function writeFull($buffer = null)
-	{
-		$buffer = $this->buffer . $buffer;
-		$length = strlen($buffer);
-		$written = $this->write($buffer, $length);
-		if ($written < $length) {
-			$this->buffer = substr($buffer, $written);
-			if ($this->maxBufferLength < $buffer = strlen($this->buffer)) {
-				$limit  = Common::formatSize($this->maxBufferLength);
-				$buffer = Common::formatSize($buffer);
-				throw new Exception(
-					"Socket instance write buffer size is exceeded ({$limit}"
-					." limit, {$buffer} in buffer)."
-				);
-			}
-			return false;
-		}
-		return true;
-	}
-
-
-	/**
-	 * Returns if there is data in write buffer
-	 *
-	 * @return bool
-	 */
-	public function hasBuffer()
-	{
-		return (bool)$this->buffer;
-	}
-
-	/**
-	 * Cleans write buffer
-	 */
-	public function cleanBuffer()
-	{
-		$this->buffer = null;
-	}
 
 
 	/**
