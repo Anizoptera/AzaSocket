@@ -4,6 +4,7 @@ CHANGELOG
 ## Version 1.1 (work in progress)
 
 
+## Version 1.0.2 (28.05.2013)
 26.05.2013
 - **MINOR:** `IS_WIN` constant defined if not available (amal)
 - **CHANGED:** `SocketReal::write` triggers error instead of exception for consistency with `SocketStream` (amal)
